@@ -83,4 +83,21 @@ trace => loopback test (get some data)
 delete
 put => replace a resource
 post 
-patch
+patch => change part of a resource
+
+
+==== (HTTP STATUS CODE) ====
+* 1 xx informational
+* 2 xx success
+* 3 xx redirection
+* 4 xx client error
+* 5 xx server error
+
+101 continue              400 bad request
+102 processing            401 unauthorized
+200 ok                    402 payment required
+201 created               404 not found
+202 accepted              500 internal server
+307 tepm redirect         504 gate way time out
+308 perm redirect
+
