@@ -86,18 +86,43 @@ post
 patch => change part of a resource
 
 
-==== (HTTP STATUS CODE) ====
-* 1 xx informational
+==== (HTTP STATUS CODE) ==== 
+* 1 xx informational 
 * 2 xx success
 * 3 xx redirection
 * 4 xx client error
 * 5 xx server error
 
-101 continue              400 bad request
-102 processing            401 unauthorized
-200 ok                    402 payment required
-201 created               404 not found
-202 accepted              500 internal server
-307 tepm redirect         504 gate way time out
-308 perm redirect
+101 continue              400 bad request 
+102 processing            401 unauthorized 
+200 ok                    402 payment required 
+201 created               404 not found 
+202 accepted              500 internal server 
+307 tepm redirect         504 gate way time out 
+308 perm redirect 
 
+
+======= class 12 ==========
+Logic building | Register controller
+
+get user details from frontend
+
+fronend se user ke details ya form mai ayega ya json type 
+mai ayega to in sub surt mai data hme req.body ke andr mil jayega,
+or agr data url mai aye to wo hme params mai milega
+
+use of operators to find user in database
+user.findOne({
+    $or: [{ email}, {name}]
+ })
+
+( user register guide) 
+get user details from frontend,
+validation -  not empty
+check if user already exists : username , email
+chek for images chek or avatar
+upload them to cloudinary avatar
+create user object, create entry in db
+remove password and refresh token from response (createduser.findOne({user._id}).select("-password -refreshtoken"))
+check for user creation 
+return response

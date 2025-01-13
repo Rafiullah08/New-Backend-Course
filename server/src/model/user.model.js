@@ -3,10 +3,9 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 
 
-
 const userSchema = new Schema({
    userName :{
-    type: string,
+    type: String,
     required : true,
     unique: true,
     lowercase : true,
@@ -14,24 +13,24 @@ const userSchema = new Schema({
     index: true,
    },
    email :{
-    type: string,
+    type: String,
     required : true,
     unique: true,
     lowercase : true,
     trim : true,
    },
    fullName :{
-    type: string,
+    type: String,
     required : true,
    index :true,
     trim : true,
    },
    avatar :{
-    type: string,
+    type: String,
    required: true
    },
    coverImage :{
-    type: string,
+    type: String,
    required: true
    },
    watchedHistory : [
@@ -84,4 +83,6 @@ userSchema.methods.refreshToken = async function () {
 )
 }
 
-export const User = mongoose.model('User',userSchema)
+const user = mongoose.model('User',userSchema)
+
+export default user;
