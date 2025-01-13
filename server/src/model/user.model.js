@@ -27,26 +27,27 @@ const userSchema = new Schema({
    },
    avatar :{
     type: String,
-   required: true
+
    },
    coverImage :{
     type: String,
-   required: true
+  
    },
    watchedHistory : [
     {
-        type : Schema.type.ObjectId,
-        ref : "video"
+    //     type : Schema.type.ObjectId,
+    //     ref : "video"
+    type : String,
     }
    ],
    password : {
-    type : string,
+    type : String,
     required : [true, "Password is required"]
    },
-   refreshToken : {
-    type : string,
+   refreshTokenn : {
+    type :  String,
    }
-} , {timestamps: tru})
+} , {timestamps: true})
 
 
 userSchema.pre("save",async function (next){

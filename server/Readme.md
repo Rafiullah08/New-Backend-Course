@@ -116,7 +116,7 @@ user.findOne({
     $or: [{ email}, {name}]
  })
 
-( user register guide) 
+( user register algorithm) 
 get user details from frontend,
 validation -  not empty
 check if user already exists : username , email
@@ -126,3 +126,7 @@ create user object, create entry in db
 remove password and refresh token from response (createduser.findOne({user._id}).select("-password -refreshtoken"))
 check for user creation 
 return response
+
+
+===== class 13 =====
+How to use postman for backend
