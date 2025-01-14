@@ -128,5 +128,31 @@ check for user creation
 return response
 
 
-===== class 13 =====
+===== class 13 =======
 How to use postman for backend
+
+
+===== class 15 ========
+Access Refresh Token, Middleware and cookies in Backend
+refresh token and access token
+
+refresh token => long lift hotain hain
+access token => short lift hotain hain
+
+user login algorithm
+get user data for req body'
+user name or email
+find the user
+password chek
+access and refresh token
+send cookie
+
+
+==== ( user logout) ===
+iskeliye hum ek auth middlewear banate hain
+jisme hum subse pehle user se toket ko get krte hai
+jiski madad se hum user ko define krke fir uske accesstoken or refresh token ko remove 
+krte hain
+
+
+======= class 16 ========

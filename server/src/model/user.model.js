@@ -35,9 +35,9 @@ const userSchema = new Schema({
    },
    watchedHistory : [
     {
-    //     type : Schema.type.ObjectId,
-    //     ref : "video"
-    type : String,
+        type : Schema.Types.ObjectId,
+        ref : "video"
+   
     }
    ],
    password : {
@@ -61,23 +61,24 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 }
 
 userSchema.methods.generateAccessToken = async function () {
-    jwt.sign({
-        _id : this_id,
+    jwt.sign(
+     {
+        _id : this._id,
         email : this.email,
-    }, 
-    process.env.ACCESS_TOKEN_SECRET,
+     }, 
+        process.env.ACCESS_TOKEN_SECRET,
     {
         expiresIn : process.env.ACCESS_TOKEN_EXPIRE
     }
 )
 }
 
-userSchema.methods.refreshToken = async function () {
-    jwt.sign({
+userSchema.methods.generateRefreshToken = async function () {
+    jwt.sign(
+    {
         _id : this_id,
-        
     }, 
-    process.env.REFRESH_TOKEN_SECRET,
+        process.env.REFRESH_TOKEN_SECRET,
     {
         expiresIn : process.env.REFRESH_TOKEN_EXPIRE
     }
