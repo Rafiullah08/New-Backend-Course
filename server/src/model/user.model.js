@@ -56,34 +56,36 @@ userSchema.pre("save",async function (next){
     next()
 })
 
-userSchema.methods.isPasswordCorrect = async function (password) {
-    return bcrypt.compare(password,this.password)
-}
+// userSchema.methods.isPasswordCorrect = async function (password) {
+//     return bcrypt.compare(password,this.password)
+// }
 
-userSchema.methods.generateAccessToken = async function () {
-    jwt.sign(
-     {
-        _id : this._id,
-        email : this.email,
-     }, 
-        process.env.ACCESS_TOKEN_SECRET,
-    {
-        expiresIn : process.env.ACCESS_TOKEN_EXPIRE
-    }
-)
-}
+// userSchema.methods.generateAccessToken = async function () {
+// const token =  jwt.sign(
+//      {
+//         _id : this._id,
+//         email : this.email,
+//      }, 
+//         process.env.ACCESS_TOKEN_SECRET,
+//     {
+//         expiresIn : process.env.ACCESS_TOKEN_EXPIRE
+//     }
+// )
+// console.log(token, "tikk");
 
-userSchema.methods.generateRefreshToken = async function () {
-    jwt.sign(
-    {
-        _id : this_id,
-    }, 
-        process.env.REFRESH_TOKEN_SECRET,
-    {
-        expiresIn : process.env.REFRESH_TOKEN_EXPIRE
-    }
-)
-}
+// }
+
+// userSchema.methods.generateRefreshToken = async function () {
+// jwt.sign(
+//     {
+//         _id : this_id,
+//     }, 
+//         process.env.REFRESH_TOKEN_SECRET,
+//     {
+//         expiresIn : process.env.REFRESH_TOKEN_EXPIRE
+//     }
+// )
+// }
 
 const user = mongoose.model('User',userSchema)
 

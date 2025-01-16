@@ -6,9 +6,14 @@ import uplodOnCloudinary from "../utils/cloudinary.js"
 
 
 const createAccessAndRefreshToken = async (userId)=>
+
  {
+    
      try {
-        const user =await user.findOne(userId)
+        
+        const users = await user.find(userId)
+        console.log(users, "user");
+    
         const accessToken = generateAccessToken()
         const refreshToken = generateRefreshToken()
 
@@ -40,18 +45,18 @@ const existedUser = await user.findOne({
  if (existedUser) {
     throw new ApiError(409, "user with this email or name is already exist")
  }
- const coverImageLocalPath = req.files?.coverImage[0]?.path;
+//  const coverImageLocalPath = req.files?.coverImage[0]?.path;
 
  const avatarLocalPath = req.files?.avatar[0]?.path;
 
  const avatar = await uplodOnCloudinary(avatarLocalPath)
- const coverImage = await uplodOnCloudinary(avatarLocalPath)
+//  const coverImage = await uplodOnCloudinary(avatarLocalPath)
 
 //  if (!avatarLocalPath) {
 //     throw new ApiError(400, "avatar is required")
 //  }
 
-console.log(avatar, coverImage);
+console.log(avatar, );
 
 
  const createUser = await user.create({
@@ -60,7 +65,7 @@ console.log(avatar, coverImage);
     password,
     fullName,
     avatar,
-    coverImage
+    // coverImage
  })
 
  
@@ -80,27 +85,32 @@ return res.status(201).json(
 const userLogin = asyncHandler(async ( req,res)=>{
     const {userName, email,password} = req.body
 
-    if(!userName || !email){
+    
+
+    if(!(userName || !email)){
         throw new ApiError(400, "username or email is required")
     }
 
-    const user = await user.findOne({
-        $or : [{email}, {userName}]
-    })
 
-    if(!user){
+    const chekUser = await user.findOne({$or : [{userName}, {email}]})
+
+
+    console.log(chekUser._id.toString(), "userdata");
+    if(!chekUser){
     throw new ApiError(404, "User does not exits")
     }
 
-    const isPasswordValid = await isPasswordCorrect(password)
+    // const isPasswordValid = await bcrypt.compare(password, chekUser.password)
+    
 
-    if(!isPasswordValid){
+    if(chekUser.password !== password){
         throw new ApiError(401, "Invalid User credentials")
     }
 
-    const {accessToken, refreshToken} = await createAccessAndRefreshToken(user._id)
+    const {accessToken, refreshToken} = await createAccessAndRefreshToken(chekUser._id)
 
-    const logedInUser = await user.findOne(user._id).select("-password -refreshToken")  
+    const logedInUser = await chekUser.findOne({_id:chekUser._id})
+    console.log(logedInUser, "logedInUser");
     
     const options = {
         httpOnly : true,
