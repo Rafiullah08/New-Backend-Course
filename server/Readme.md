@@ -163,3 +163,16 @@ refresh token long lived hota hain.
 
 ===== class 17 ===========
 generateRefreshToken
+
+user.findByIdAndUpdate(
+    {
+    req.user?.id,
+    },
+    {}, jo data update krna ho wo isma rk ke pass krte hain
+    {new : true}, isme update hone ke bad jo data hota hia wo hme mil jata hai 
+)
+
+/// Note!
+kisi ek field ko update krne keliye $set: {}
+ka use krte hai isse ek field update hoti hain 
+pura objet update nhi hoti .
