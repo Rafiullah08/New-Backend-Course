@@ -172,7 +172,7 @@ user.findByIdAndUpdate(
     {new : true}, isme update hone ke bad jo data hota hia wo hme mil jata hai 
 )
 
-/// Note!
+/// Note! 
 kisi ek field ko update krne keliye $set: {}
 ka use krte hai isse ek field update hoti hain 
 pura objet update nhi hoti .
