@@ -176,3 +176,25 @@ user.findByIdAndUpdate(
 kisi ek field ko update krne keliye $set: {}
 ka use krte hai isse ek field update hoti hain 
 pura objet update nhi hoti .
+
+
+====== class 18 =========
+Writing update controllers for user | Backend with JS
+
+====== class 19 =========
+Understand the subscription Schema
+Subscription schema:
+jp bhi hum kisi channel ko subscribe krte hain
+to hamare pass ek naya documents create hota hai.
+or subscriber ko count krne keliye hum documents yani channel ko 
+fine krte hain or fir subscriber ko count krte hain.
+
+// channel se subscriber milte hain or subscriber se channel.
+
+
+
+======= class 19 ========
+Learn Mongodb aggregation pipelines
+
+aggregation:
+aggregated pipelines almost return array

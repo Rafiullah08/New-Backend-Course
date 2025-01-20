@@ -75,17 +75,17 @@ userSchema.pre("save",async function (next){
 
 // }
 
-// userSchema.methods.generateRefreshToken = async function () {
-// jwt.sign(
-//     {
-//         _id : this_id,
-//     }, 
-//         process.env.REFRESH_TOKEN_SECRET,
-//     {
-//         expiresIn : process.env.REFRESH_TOKEN_EXPIRE
-//     }
-// )
-// }
+userSchema.methods.generateRefreshToken = async function () {
+jwt.sign(
+    {
+        _id : this_id,
+    }, 
+        process.env.REFRESH_TOKEN_SECRET,
+    {
+        expiresIn : process.env.REFRESH_TOKEN_EXPIRE
+    }
+)
+}
 
 const user = mongoose.model('User',userSchema)
 

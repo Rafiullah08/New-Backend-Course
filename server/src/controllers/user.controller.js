@@ -3,6 +3,7 @@ import user from "../model/user.model.js"
 import { ApiError } from "../utils/apiError.js"
 import ApiResponse from "../utils/apiResponse.js"
 import uplodOnCloudinary from "../utils/cloudinary.js"
+import { subscribe } from "diagnostics_channel"
 
 
 const createAccessAndRefreshToken = async (userId)=>
@@ -151,6 +152,75 @@ await user.findByIdAndUpdate(req.user._id, {
      .json(new ApiResponse(200, {}, "User loged out successfully"))
 })
    
+
+const getUserChannel = asyncHandler(async (req,res)=>{
+    const {userName} = req.params
+
+    if(!userName?.trim()){
+        throw new ApiError(400, "username is required")
+    }
+const channel = await user.aggregate([
+    {
+        $match : {
+            userName : userName?.toLowerCase()
+        },
+        $lookup:{
+            from : "subscriptions",
+            localField : "_id",
+            foreignField : "channel",
+            as : "subscribers"
+        }
+    },
+    {
+        $lookup : {
+            from : "videos",
+            localField : "_id",
+            foreignField : "subscriber",
+            as : "subscribedTo"
+        }
+    },
+    {
+        $addFields : {
+          subscribers : {
+              $size : "$subscribers"
+          },
+          channelSubscribeToCount : {
+                $size : "$subscribedTo"
+          }  ,
+          isSubscribed : {
+              $cond : {
+                  if : {
+                      $in : [req.user._id, "$subscribers.subscriber"]
+                  },
+                  then : true,
+                  else : false
+              }
+          }
+        }
+    },
+    {
+        $project : {
+            userName : 1,
+            subscribers : 0,
+            channelSubscribeToCount : 1,
+            channelSubscribeToCount : 1,
+            isSubscribed : 1,
+            avatar : 1, 
+            coverImage : 1,
+            createdAt : 1
+        
+        }
+    }
+])
+console.log(channel, "channel");
+
+if(!channel?.length){
+    throw new ApiError(404, "channel not found")
+}
+
+res.status(200).json(new ApiResponse(200, channel[0], "channel"))
+})
+
 export { 
     registerUser , 
     userLogin,
