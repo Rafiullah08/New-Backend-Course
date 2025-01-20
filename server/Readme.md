@@ -198,3 +198,21 @@ Learn Mongodb aggregation pipelines
 
 aggregation:
 aggregated pipelines almost return array
+
+
+======= class 20 ========
+How to write sub pipelines and routes
+req.body._id => isse hme string milta hain mondo db k id nhi 
+fir mongose k throw mongo db behind the seen sb kuch dek leta hain.
+
+======= class 21 ========
+Summary of our Backend Series
+
+====== class 22 =========
+MongoDB models for like playlist and tweet
+
+
+===== class 23 ==========
+Build in public and open source | Only video that you need 🔥
+assingment
+chai or backend complete

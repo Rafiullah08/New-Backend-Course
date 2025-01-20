@@ -3,7 +3,9 @@ import user from "../model/user.model.js"
 import { ApiError } from "../utils/apiError.js"
 import ApiResponse from "../utils/apiResponse.js"
 import uplodOnCloudinary from "../utils/cloudinary.js"
-import { subscribe } from "diagnostics_channel"
+
+
+
 
 
 const createAccessAndRefreshToken = async (userId)=>
@@ -88,7 +90,7 @@ const userLogin = asyncHandler(async ( req,res)=>{
 
     
 
-    if(!(userName || !email)){
+    if(!(userName || email)){
         throw new ApiError(400, "username or email is required")
     }
 
@@ -132,8 +134,8 @@ const userLogin = asyncHandler(async ( req,res)=>{
 
 const logOutUser = asyncHandler(async (req,res)=>{
 await user.findByIdAndUpdate(req.user._id, {
-    $set: {
-        refreshToken : undefined
+    $unset: {
+        refreshToken : 1
     }
 },
 
@@ -221,8 +223,58 @@ if(!channel?.length){
 res.status(200).json(new ApiResponse(200, channel[0], "channel"))
 })
 
+const getWatchedHistory = asyncHandler(async (req,res)=>{
+
+    const user = await user.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(req.user._id)
+            }
+        },
+        {
+           $lookup: {
+            from: "videos",
+                localField : "watchHistory",
+                foreignField: "_id",
+                as : "watchHistory",
+                pipeline : [
+                    {
+                        $lookup : {
+                            from : "users",
+                            localField: "owner",
+                            foreignField: "_id",
+                            as: "owner",
+                            pipeline: [
+                                {
+                                    $project : {
+                                        fullName : 1,
+                                        userName : 1,
+                                        avatar : 1
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+           }
+        }
+    ])
+
+   return res.status(200)
+   .json(
+    new ApiResponse(
+        200,
+        user[0],
+        "watch history fetched successfully"
+    )
+   ) 
+})
+
+
 export { 
     registerUser , 
     userLogin,
-    logOutUser
+    logOutUser,
+    getUserChannel,
+    getWatchedHistory
 }
